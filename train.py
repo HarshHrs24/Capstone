@@ -161,17 +161,17 @@ def prophet_AQI(city):
   
 
   #preprocessing     
-  os.rename(three_prediction_model_name, four_prediction_model_name)
-  os.rename(three_prediction_file_name, four_prediction_file_name)
-  os.rename(three_data_file_name, four_data_file_name)
+  # os.rename(three_prediction_model_name, four_prediction_model_name)
+  # os.rename(three_prediction_file_name, four_prediction_file_name)
+  # os.rename(three_data_file_name, four_data_file_name)
 
-  os.rename(two_prediction_model_name, three_prediction_model_name)
-  os.rename(two_prediction_file_name, three_prediction_file_name)
-  os.rename(two_data_file_name, three_data_file_name)
+  # os.rename(two_prediction_model_name, three_prediction_model_name)
+  # os.rename(two_prediction_file_name, three_prediction_file_name)
+  # os.rename(two_data_file_name, three_data_file_name)
 
-  os.rename(one_prediction_model_name, two_prediction_model_name)
-  os.rename(one_prediction_file_name, two_prediction_file_name)
-  os.rename(one_data_file_name, two_data_file_name)
+  # os.rename(one_prediction_model_name, two_prediction_model_name)
+  # os.rename(one_prediction_file_name, two_prediction_file_name)
+  # os.rename(one_data_file_name, two_data_file_name)
 
   #weekly update via api 
   df = weekly_update(city,'AQI')
@@ -181,7 +181,7 @@ def prophet_AQI(city):
 
   df['time'] = pd.to_datetime(df['dt'], dayfirst=True)
   df['aqi'] = df['aqi'].interpolate(method='linear')
-  data_prophet =df[['time', 'aqi']].rename(columns={'time': 'ds', 'aqi': 'y'})
+  data_prophet = df[['time', 'aqi']].rename(columns={'time': 'ds', 'aqi': 'y'})
 
 
 
