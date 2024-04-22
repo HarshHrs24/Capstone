@@ -176,7 +176,7 @@ st.sidebar.header('Team Tarang.ai')
 
 st.sidebar.subheader('What you want to Predict?')
 selected_model = st.sidebar.selectbox('Choose:', ('Heat wave', 'AQI'))
-selected_model = "".join(selected_model.split(" "))
+selected_model = "".join(selected_model.split(" ")).lower()
 st.sidebar.write('''
 
 
@@ -211,7 +211,7 @@ def timeline_prepare(df, model):
     return df
 
 selected_city = selected_city.lower()
-if selected_model == "Heat wave":
+if selected_model == "heatwave:
     path = "winner/{}/{}_temp_csv_forecast.csv".format(selected_model, selected_city)
 
     df = pd.read_csv(path)
