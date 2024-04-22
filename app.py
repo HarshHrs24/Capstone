@@ -12,6 +12,26 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 
+#  additional IMPORTS
+import plotly.graph_objects as go
+from sttime import st_timeline
+# streamlit-vis-timeline
+import base64
+from shapely.geometry import Point
+import datetime
+import smtplib
+import geopandas as gpd
+import pandas as pd
+from streamlit_folium import folium_static
+from folium.plugins import Search
+import folium
+from PIL import Image
+from streamlit_lottie import st_lottie
+import streamlit as st
+import requests
+from prophet.serialize import model_from_json
+from prophet.plot import plot_plotly
+
 # Description
 def info(title, text):
     with st.expander(f"{title}"):
@@ -34,7 +54,9 @@ def conv(x):
 
 # to load next year prediction
 def load_prediction(selected_model, city):
-    path = "{}/{}_csv.csv".format(selected_model, city)
+    path = "./winner/{}/{}_csv.csv".format(selected_model, city)
+    # Heat wave\bangalore_csv.csv
+    # Heat wave
     print(path)
     df = pd.read_csv(path)
     return df
@@ -42,7 +64,13 @@ def load_prediction(selected_model, city):
 
 # to load model
 def load_model(selected_model, city):
-    path = "{}/{}_model.json".format(selected_model, city)
+    
+    # Heat wave/Bengaluru_model.json
+    # ./versioning/weekone/Heat wave/bengaluru_temp_csv.json
+    # .\versioning\weekone\Heat wave\bangalore_temp_csv.json
+    
+    city = city.lower()
+    path = "./winner/{}/{}_temp_csv.json".format(selected_model, city)
     with open(path, 'r') as fin:
         m = model_from_json(fin.read())  # Load model
     return m
@@ -90,6 +118,43 @@ def line_plot_plotly(m, forecast, mode, model):
 
     return fig
 
+# NEW
+def heatwave_prepare(df):
+    df["datetime"] = pd.to_datetime(df["datetime"])
+    df.set_index("datetime", inplace=True)
+    df = df.resample("d").max()
+    df = df.reset_index()
+    df["date"] = df["datetime"].dt.date
+    df.set_index("date", inplace=True)
+    T = (df["temp"] * 9 / 5) + 32
+    df["temp"] = T
+    R = df["humidity"]
+    # Calculating Heat index using heat index chart formula
+    hi = (
+        -42.379
+        + 2.04901523 * T
+        + 10.14333127 * R
+        - 0.22475541 * T * R
+        - 6.83783 * (10**-3) * (T * T)
+        - 5.481717 * (10**-2) * R * R
+        + 1.22874 * (10**-3) * T * T * R
+        + 8.5282 * (10**-4) * T * R * R
+        - 1.99 * (10**-6) * T * T * R * R
+    )
+    df["heat_index"] = hi
+    df["occurence of heat wave"] = df["temp"].apply(
+        lambda x: "yes" if x > 128 else "no"
+    )
+    return df
+
+def aqi_prepare(df):
+    df["dt"] = pd.to_datetime(df["dt"])
+    df.set_index("dt", inplace=True)
+    df = df.resample("d").max()
+    df = df.reset_index()
+    df["date"] = df["dt"].dt.date
+    df.set_index("date", inplace=True)
+    return df
 
 # ---- LOAD ASSETS ----
 
@@ -111,10 +176,11 @@ st.sidebar.header('Team Tarang.ai')
 
 st.sidebar.subheader('What you want to Predict?')
 selected_model = st.sidebar.selectbox('Choose:', ('Heat wave', 'AQI'))
+
 st.sidebar.write('''
 
 ''')
-cities = ('Bengaluru','Delhi', 'Chennai', 'Lucknow' )
+cities = ('bangalore','Delhi', 'Chennai', 'Lucknow' )
 selected_city = st.sidebar.selectbox('Select a city for prediction', cities)
 
 # image = Image.open('images/logo.png')
@@ -124,10 +190,297 @@ selected_city = st.sidebar.selectbox('Select a city for prediction', cities)
 st.sidebar.markdown('''
 ---
 Created with ❤️ by [Team Tarang.ai](https://github.com/iamneo-production/00aa9422-7c04-4b7c-975b-6ed887ff7d95).
-
 ''')
 
+def timeline_prepare(df, model):
+    if model == "Heat wave":
+        df["occurence of heat wave"] = df["yhat_upper"].apply(
+            lambda x: "yes" if x >= 39.0 else "no"
+        )
+        print(df["yhat_upper"].max())
+        df = df.iloc[4017:]
+        print('occour:', df['occurence of heat wave'].value_counts())
 
+    else:
+        df["yhat"] = df["yhat"].apply(conv)
+        df["Extreme AQI events"] = df["yhat"].apply(lambda x: "yes" if x > 4 else "no")
+    return df
+
+selected_city = selected_city.lower()
+if selected_model == "Heat wave":
+    path = "winner/{}/{}_temp_csv_forecast.csv".format(selected_model, selected_city)
+
+    df = pd.read_csv(path)
+    df = timeline_prepare(df, selected_model)
+
+    df = df[df["occurence of heat wave"] == "yes"]
+    # Convert the dataframe to a list of dictionaries
+    items = []
+    i = 1
+    for index, row in df.iterrows():
+        yhat_upper = str(row["yhat_upper"])
+        yhat_lower = str(row["yhat_lower"])
+        content = "On {}, {} is expected to experience a maximum temperature of {} and a minimum temperature of {}.".format(
+            str(row["ds"]), selected_city, yhat_upper, yhat_lower
+        )
+        item = {"id": i, "content": "⚠", "message": content, "start": str(row["ds"])}
+        items.append(item)
+        i = i + 1
+
+    timeine_title = "Major Heat wave occurrences in the year 2023"
+    st.header(timeine_title)
+    info(
+        "Info",
+        "The timeline highlights the major events in the year 2023 regarding the occurrence of Heat waves.",
+    )
+
+    options = {"min": "2024-01-01", "max": "2024-12-31"}
+
+    timeline = st_timeline(items, groups=[], options=options, height="300px")
+    st.subheader("Selected item")
+    st.write(timeline)
+else:
+    path = "./winner/{}/{}_aqi_csv_forecast.csv".format(selected_model, selected_city)
+    # winner/AQI/bangalore_aqi_csv_forecast.csv
+    # winner\AQI\bangalore_aqi_csv_forecast.csv
+    
+    
+    print("PATH:" ,path)
+    df = pd.read_csv(path)
+    df = timeline_prepare(df, selected_model)
+    df = df[df["Extreme AQI events"] == "yes"]
+
+    # Convert the dataframe to a list of dictionaries
+    items = []
+    i = 1
+    for index, row in df.iterrows():
+        yhat = str(row["yhat"])
+        content = "The predicted AQI for {} on {} is {}".format(
+            selected_city, str(row["ds"]), yhat
+        )
+        item = {"id": i, "content": "⚠", "message": content, "start": str(row["ds"])}
+        items.append(item)
+        i = i + 1
+
+    timeine_title = (
+        "Major events in the year 2023 regarding severe Air Quality conditions."
+    )
+    st.header(timeine_title)
+
+    info(
+        "Info",
+        "The timeline highlights the major events in the year 2023 regarding severe Air Quality conditions",
+    )
+
+    options = {"min": "2024-01-01", "max": "2024-12-31"}
+
+    timeline = st_timeline(items, groups=[], options=options, height="300px")
+    st.subheader("Selected item")
+    st.write(timeline)
+    
+    
+    
+# ___MAP___ 
+selected_city = selected_city.lower()
+retrain_log_path = "./retrain/{}/{}_retrain_log.csv".format(selected_model, selected_city)
+# retrain_log_path = "./retrain/Heat wave/bangalore_retrain_log.csv"
+# retrain/Heat wave/Bengaluru_retrain_log.csv
+# retrain\Heat wave\bangalore_retrain_log.csv
+# retrain\AQI\bangalore_retrain_log.csv
+df = pd.read_csv(retrain_log_path)
+
+
+# Unix timestamp in seconds
+unix_timestamp = df["last updated date"].iloc[-1]
+
+# Convert Unix timestamp to datetime object
+date_time = datetime.datetime.fromtimestamp(unix_timestamp)
+
+year_string = int(date_time.strftime("%Y"))
+month_string = int(date_time.strftime("%m"))
+date_string = int(date_time.strftime("%d"))
+
+
+if selected_model == "Heat wave":
+    min_date = datetime.date(2012, 1, 1)
+    max_date = datetime.date(year_string, month_string, date_string)
+else:
+    min_date = datetime.date(2020, 12, 2)
+    max_date = datetime.date(year_string, month_string, date_string)
+
+d = st.date_input(
+    "Choose a date", datetime.date(2023, 1, 1), min_value=min_date, max_value=max_date
+)
+
+
+
+
+with st.container():
+
+    left_column, middle_column, right_column = st.columns(3)
+    with left_column:
+        # df_wa = pd.read_csv(path_wa)
+
+        if selected_model == "Heat wave":
+            path_ben = "./versioning/weekone/{}/bangalore_temp_csv.csv".format(selected_model)
+            # versioning/weekone/AQI/bangalore_temp_csv.csv
+            # versioning\weekone\AQI\bangalore_aqi_csv.csv
+            # versioning/weekone/Heat wave/bangalore_temp_csv.csv
+            # versioning\weekone\heatwave\bangalore_temp_csv.csv
+            
+            path_del = "./versioning/weekone/{}/delhi_temp_csv.csv".format(selected_model)
+            path_luc = "./versioning/weekone/{}/lucknow_temp_csv.csv".format(selected_model)
+            path_chn = "./versioning/weekone/{}/chennai_temp_csv.csv".format(selected_model)
+            
+            #  datetime,datetimeEpoch,tempmax,tempmin,temp,feelslikemax,feelslikemin,feelslike,dew,humidity,precip,precipprob,precipcover
+
+            # path_wa = 'versioning/one/{}/1_Warangal_data.csv'.format(selected_model)
+            
+            df_ben = pd.read_csv(path_ben)
+            df_del = pd.read_csv(path_del)
+            df_luc = pd.read_csv(path_luc)
+            df_chn = pd.read_csv(path_chn)
+            
+            df_ben = heatwave_prepare(df_ben)
+            df_del = heatwave_prepare(df_del)
+            df_luc = heatwave_prepare(df_luc)
+            df_chn = heatwave_prepare(df_chn)
+
+            temp_ben = df_ben.loc[d, "temp"]
+            temp_del = df_del.loc[d, "temp"]
+            temp_luc = df_luc.loc[d, "temp"]
+            temp_chn = df_chn.loc[d, "temp"]
+            # temp_wa = df_wa.loc[d, 'temp']
+            # Select the temperature and heat index value for a particular date and store it in a variable
+
+            heat_index_ben = df_ben.loc[d, "heat_index"]
+            heat_index_del = df_del.loc[d, "heat_index"]
+            heat_index_luc = df_luc.loc[d, "heat_index"]
+            heat_index_chn = df_chn.loc[d, "heat_index"]
+            # heat_index_wa = df_wa.loc[d, 'heat_index']
+            cities = {
+                "city": ["bengaluru", "delhi", "lucknow", "chennai"],
+                "Heat Index": [
+                    heat_index_ben,
+                    heat_index_del,
+                    heat_index_luc,
+                    heat_index_chn,
+                ],
+                "Temperature(°F)": [temp_ben, temp_del, temp_luc, temp_chn],
+                "latitude": [12.9767936, 28.6517178, 26.8381, 13.0836939],
+                "longitude": [77.590082, 77.2219388, 80.9346001, 80.270186],
+            }
+
+            # Convert the city data to a GeoDataFrame
+            geometry = [
+                Point(xy) for xy in zip(cities["longitude"], cities["latitude"])
+            ]
+            cities_gdf = gpd.GeoDataFrame(cities, geometry=geometry, crs="EPSG:4326")
+
+            # Save the GeoDataFrame to a GeoJSON file
+            cities_gdf.to_file("heatwave_cities.geojson", driver="GeoJSON")
+
+            # Load the city data
+            cities = gpd.read_file("heatwave_cities.geojson")
+
+            # Create a folium map centered on the India
+            m = folium.Map(location=[21.184241, 79.824362], zoom_start=5)
+
+            # Create a GeoJson layer for the city data
+            geojson = folium.GeoJson(
+                cities,
+                name="City Data",
+                tooltip=folium.GeoJsonTooltip(
+                    fields=["city", "Heat Index", "Temperature(°F)"],
+                    aliases=["City", "Heat Index", "Temperature(°F)"],
+                    localize=True,
+                ),
+            ).add_to(m)
+
+            # Add a search bar to the map
+            search = Search(
+                layer=geojson,
+                geom_type="Point",
+                placeholder="Search for a city",
+                collapsed=False,
+                search_label="city",
+            ).add_to(m)
+
+            folium_static(m, width=500, height=500)
+        else:
+            path_ben = "./versioning/weekone/{}/bangalore_aqi_csv.csv".format(selected_model)
+            # ./versioning/weekone/AQI/bangalore_aqi_csv.csv
+            # ./versioning\weekone\AQI\bangalore_aqi_csv.csv
+            print("AQI_PATH:",path_ben)
+            
+            path_del = "./versioning/weekone/{}/delhi_aqi_csv.csv".format(selected_model)
+            path_luc = "./versioning/weekone/{}/lucknow_aqi_csv.csv".format(selected_model)
+            path_chn = "./versioning/weekone/{}/chennai_aqi_csv.csv".format(selected_model)
+            
+            #  datetime,datetimeEpoch,tempmax,tempmin,temp,feelslikemax,feelslikemin,feelslike,dew,humidity,precip,precipprob,precipcover
+
+            # path_wa = 'versioning/one/{}/1_Warangal_data.csv'.format(selected_model)
+            
+            df_ben = pd.read_csv(path_ben)
+            df_del = pd.read_csv(path_del)
+            df_luc = pd.read_csv(path_luc)
+            df_chn = pd.read_csv(path_chn)
+            
+            df_ben = aqi_prepare(df_ben)
+            df_del = aqi_prepare(df_del)
+            df_luc = aqi_prepare(df_luc)
+            df_che = aqi_prepare(df_chn)
+            # df_wa = aqi_prepare(df_wa)
+
+            aqi_ben = df_ben.loc[d, "aqi"]
+            aqi_del = df_del.loc[d, "aqi"]
+            aqi_luc = df_luc.loc[d, "aqi"]
+            aqi_chn = df_che.loc[d, "aqi"]
+            # aqi_wa = df_wa.loc[d, "aqi"]
+
+            # Select the temperature and heat index value for a particular date and store it in a variable
+
+            cities = {
+                'city': ['bengaluru', 'delhi', 'lucknow', 'chennai'],
+                'AQI': [aqi_ben, aqi_del, aqi_luc, aqi_chn],
+                'latitude': [12.9767936, 28.6517178, 26.8381, 13.0836939],
+                'longitude': [77.590082, 77.2219388, 80.9346001, 80.270186]
+            }
+
+            # Convert the city data to a GeoDataFrame
+            geometry = [
+                Point(xy) for xy in zip(cities["longitude"], cities["latitude"])
+            ]
+            cities_gdf = gpd.GeoDataFrame(cities, geometry=geometry, crs="EPSG:4326")
+
+            # Save the GeoDataFrame to a GeoJSON file
+            cities_gdf.to_file("aqi_cities.geojson", driver="GeoJSON")
+
+            # Load the city data
+            cities = gpd.read_file("aqi_cities.geojson")
+
+            # Create a folium map centered on the India
+            m = folium.Map(location=[17.9774221, 79.52881], zoom_start=6)
+
+            # Create a GeoJson layer for the city data
+            geojson = folium.GeoJson(
+                cities,
+                name="City Data",
+                tooltip=folium.GeoJsonTooltip(
+                    fields=["city", "AQI"], aliases=["City", "AQI"], localize=True
+                ),
+            ).add_to(m)
+
+            # Add a search bar to the map
+            search = Search(
+                layer=geojson,
+                geom_type="Point",
+                placeholder="Search for a city",
+                collapsed=False,
+                search_label="city",
+            ).add_to(m)
+
+            folium_static(m, width=520, height=520)
 
 
 # ---- HEADER SECTION ----
@@ -246,12 +599,13 @@ with st.container():
 
     with st.spinner('Loading Model Into Memory....'):
         m = load_model(selected_model, selected_city)
-
+        
     forecast = load_prediction(selected_model, selected_city)
 
 
-path1 = "winner/{}/winner_{}_prediction.csv".format(
-    selected_model, selected_city)
+path1 = "winner/{}/{}_temp_csv_forecast.csv".format(selected_model, selected_city)
+# winner/Heat wave/winner_bangalore_prediction.csv
+# C:\Users\PETE\Desktop\ADMIN\CAPSTONE\Capstone\winner\Heat wave\bangalore_temp_csv_forecast.csv
 
 st.header("Graph")
 if selected_model == 'Heat wave':
