@@ -74,9 +74,12 @@ def load_model(selected_model, city):
     # Heat wave/Bengaluru_model.json
     # ./versioning/weekone/Heat wave/bengaluru_temp_csv.json
     # .\versioning\weekone\Heat wave\bangalore_temp_csv.json
-    
+    if selected_model == 'heatwave':
+        path = "./winner/{}/{}_temp_csv.json".format(selected_model, city)
+    else:
+        path = "./winner/{}/{}_aqi_csv.json".format(selected_model, city)
+        # './winner/aqi/bangalore_aqi_csv.json'
     city = city.lower()
-    path = "./winner/{}/{}_temp_csv.json".format(selected_model, city)
     with open(path, 'r') as fin:
         m = model_from_json(fin.read())  # Load model
     return m
@@ -431,7 +434,6 @@ with st.container():
 
 
 st.write("---")
-
 st.set_option('deprecation.showfileUploaderEncoding', False)
 st.title("Our Model")
 st.write("Select the desired criterias from the sidebar")
@@ -441,6 +443,7 @@ with st.container():
 
     with st.spinner('Loading Model Into Memory....'):
         m = load_model(selected_model, selected_city)
+        # "./winner/aqi/delhi_aqi_csv.json"
         
     forecast = load_prediction(selected_model, selected_city)
 
@@ -488,7 +491,6 @@ else:
 
 
 with st.container():
-
     left_column, middle_column, right_column = st.columns(3)
     with left_column:
         # df_wa = pd.read_csv(path_wa)
