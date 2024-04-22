@@ -211,7 +211,7 @@ def timeline_prepare(df, model):
     return df
 
 selected_city = selected_city.lower()
-if selected_model == "heatwave:
+if selected_model == "heatwave":
     path = "winner/{}/{}_temp_csv_forecast.csv".format(selected_model, selected_city)
 
     df = pd.read_csv(path)
