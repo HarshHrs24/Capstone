@@ -296,6 +296,8 @@ retrain_log_path = "./retrain/{}/{}_retrain_log.csv".format(selected_model, sele
 # "./retrain/heatwave/bangalore_retrain_log.csv"
 
 df = pd.read_csv(retrain_log_path)
+# ./retrain/aqi/bangalore_retrain_log.csv
+# ./retrain/aqi/bangalore_retrain_log.csv"
 
 
 # Unix timestamp in seconds
