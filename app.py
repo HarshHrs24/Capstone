@@ -195,7 +195,7 @@ Created with ❤️ by [Team Tarang.ai](https://github.com/iamneo-production/00a
 ''')
 
 def timeline_prepare(df, model):
-    if model == "Heat wave":
+    if model == "heatwave":
         df["occurence of heat wave"] = df["yhat_upper"].apply(
             lambda x: "yes" if x >= 39.0 else "no"
         )
@@ -303,7 +303,7 @@ month_string = int(date_time.strftime("%m"))
 date_string = int(date_time.strftime("%d"))
 
 
-if selected_model == "Heat wave":
+if selected_model == "heatwave":
     min_date = datetime.date(2012, 1, 1)
     max_date = datetime.date(year_string, month_string, date_string)
 else:
@@ -323,7 +323,7 @@ with st.container():
     with left_column:
         # df_wa = pd.read_csv(path_wa)
 
-        if selected_model == "Heat wave":
+        if selected_model == "heatwave":
             path_ben = "./versioning/weekone/{}/bangalore_temp_csv.csv".format(selected_model)
             # versioning/weekone/AQI/bangalore_temp_csv.csv
             # versioning\weekone\AQI\bangalore_aqi_csv.csv
@@ -501,7 +501,7 @@ with st.container():
         st.write("Stay ahead of the heat and breathe easy with Team Tarang.ai")
 
 
-        if selected_model == "Heat wave":
+        if selected_model == "heatwave":
             # st.write("[Exploratory Data Analysis(EDA)](https://colab.research.google.com/drive/1xH77_KLE3gpmTxGk9-X36Pj6lHee0iBc?usp=sharing#scrollTo=nybHfIsygGzp)")
             # st.write("[Solution Architecture](https://www.craft.do/s/1eTduABsPuFIDX)")
             
@@ -558,7 +558,7 @@ with st.container():
         st.markdown("<h5 style='text-align: right; color: white;'>Dr. Preetam Suman</h5>", unsafe_allow_html=True)
         st.markdown("<h5 style='text-align: right; color: white;'>Dr. Sasmita Padhy</h5>", unsafe_allow_html=True)
 
-        if selected_model == 'Heat wave':
+        if selected_model == 'heatwave':
                 st_lottie(lottie_coding_1, height=300, key="coding")
         else:
             st_lottie(lottie_coding_2, height=300, key="coding")
@@ -610,7 +610,7 @@ path1 = "winner/{}/{}_temp_csv_forecast.csv".format(selected_model, selected_cit
 # C:\Users\PETE\Desktop\ADMIN\CAPSTONE\Capstone\winner\Heat wave\bangalore_temp_csv_forecast.csv
 
 st.header("Graph")
-if selected_model == 'Heat wave':
+if selected_model == 'heatwave':
     info("Info", '''The Graph displays the forecasted values and their associated uncertainty intervals over time. 
     Shaded areas above and below the line represent the uncertainty interval.
     The blue line represents the forecast prediction.''')
