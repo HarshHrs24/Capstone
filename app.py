@@ -290,10 +290,8 @@ else:
     
 # ___MAP___ 
 selected_city = selected_city.lower()
-retrain_log_path = "./retrain/{}/{}_retrain_log.csv".format(selected_model, selected_city)
+retrain_log_path = "./retrain/heatwave/{}_retrain_log.csv".format(selected_city)
 print('retrain_log_path:',retrain_log_path)
-# ./retrain/heatwave/bangalore_retrain_log.csv
-# "./retrain/heatwave/bangalore_retrain_log.csv"
 
 df = pd.read_csv(retrain_log_path)
 # './retrain/aqi/bangalore_retrain_log.csv'
