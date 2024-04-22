@@ -54,7 +54,13 @@ def conv(x):
 
 # to load next year prediction
 def load_prediction(selected_model, city):
-    path = "./winner/{}/{}_csv.csv".format(selected_model, city)
+    # path = "./winner/{}/{}_{}_csv_forecast.csv".format(selected_model, city)
+    if selected_model == 'heatwave':
+        path = "./winner/{}/{}_temp_csv_forecast.csv".format(selected_model, city)
+    else:
+        path = "./winner/{}/{}_aqi_csv_forecast.csv".format(selected_model, city)
+    # "./winner/heatwave/bangalore_temp_csv_forecast.csv"
+    # "./winner/aqi/bangalore_aqi_csv_forecast.csv"
     # Heat wave\bangalore_csv.csv
     # Heat wave
     print(path)
@@ -287,7 +293,7 @@ selected_city = selected_city.lower()
 retrain_log_path = "./retrain/{}/{}_retrain_log.csv".format(selected_model, selected_city)
 
 # ./retrain/heatwave/bangalore_retrain_log.csv
-"./retrain/heatwave/bangalore_retrain_log.csv"
+# "./retrain/heatwave/bangalore_retrain_log.csv"
 
 df = pd.read_csv(retrain_log_path)
 
