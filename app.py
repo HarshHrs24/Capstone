@@ -176,12 +176,16 @@ st.sidebar.header('Team Tarang.ai')
 
 st.sidebar.subheader('What you want to Predict?')
 selected_model = st.sidebar.selectbox('Choose:', ('Heat wave', 'AQI'))
-
+selected_model = "".join(selected_model.split(" "))
 st.sidebar.write('''
+
 
 ''')
 cities = ('bangalore','Delhi', 'Chennai', 'Lucknow' )
 selected_city = st.sidebar.selectbox('Select a city for prediction', cities)
+selected_city = selected_city.lower()
+print("SELECTION:PARAMS" , selected_city , selected_model)
+
 
 # image = Image.open('images/logo.png')
 # st.sidebar.image(image)
