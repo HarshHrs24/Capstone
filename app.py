@@ -197,7 +197,6 @@ print("SELECTION:PARAMS" , selected_city , selected_model)
 # image = Image.open('images/logo.png')
 # st.sidebar.image(image)
 
-
 st.sidebar.markdown('''
 ---
 Created with ❤️ by [Team Tarang.ai](https://github.com/iamneo-production/00aa9422-7c04-4b7c-975b-6ed887ff7d95).
@@ -634,7 +633,7 @@ with st.container():
             cities = gpd.read_file("aqi_cities.geojson")
 
             # Create a folium map centered on the India
-            m = folium.Map(location=[21.184241, 79.824362], zoom_start=6)
+            m = folium.Map(location=[21.184241, 79.824362], zoom_start=5)
 
             # Create a GeoJson layer for the city data
             geojson = folium.GeoJson(
