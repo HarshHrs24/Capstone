@@ -105,7 +105,7 @@ def weekly_update(city,model):
                 for d in data['days']:
                     # Extract the values from each dictionary and append to the DataFrame
                     w = w.append({
-                        'datetime': dt.datetime.fromtimestamp(d['datetime']),
+                        'datetime': dt.datetime.strptime(d['datetime'], '%Y-%m-%d'),
                         'tempmax': d['tempmax'],
                         'humidity': d['humidity'],
                         'windspeed': d['windspeed'],
