@@ -668,6 +668,7 @@ with st.container():
 
         df = pd.read_csv(path)
         df = heatwave_prepare(df)
+        print(df.columns)
 
         left_column, middle_column1, middle_column, right_column, middle_column2 = st.columns(
             5)
@@ -704,8 +705,9 @@ with st.container():
     else:
         df = pd.read_csv(path)
         df = aqi_prepare(df)
-        left_column, middle_column1, right_column, middle_column2 = st.columns(
-            4)
+        print(df.columns)
+        left_column, middle_column1, right_column, middle_column2 = st.columns(4)
+        
         with left_column:
             st.write(
                 "<p style='color: #00C957; font-size: 20px;'>Carbon monoxide</p>", unsafe_allow_html=True)
