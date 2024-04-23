@@ -101,7 +101,8 @@ def weekly_update(city,model):
               response = requests.get(url)
               if(response.status_code==200):
                 data = response.json()
-                for d in data['data']:
+                print("data",data )
+                for d in data['list']:
                     # Extract the values from each dictionary and append to the DataFrame
                     w = w.append({
                         'datetime': dt.datetime.fromtimestamp(d['datetime']),
