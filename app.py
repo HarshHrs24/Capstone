@@ -664,14 +664,14 @@ st.write("---")
 info("Description", "It will give the details of relevant parameters in reference to respective date and selected city.")
 
 with st.container():
-    path = "./versioning/weekone/{}/{}_temp_csv.csv".format(selected_model, selected_city)
     
-    print("PATH" , path)
     # datetime	datetimeEpoch	tempmax	tempmin	temp	feelslikemax	feelslikemin	feelslike	dew	humidity	precip	precipprob	precipcover	windspeed	cloudcover	conditions
 #   'datetime', 'Unnamed: 0', 'datetimeEpoch', 'tempmax', 'tempmin', 'temp','feelslikemax', 'feelslikemin', 'feelslike', 'dew', 'humidity','precip', 'precipprob', 'precipcover', 'windspeed', 'cloudcover','heat_index', 'occurence of heat wave'
 
     if selected_model == 'heatwave':
 
+        path = "./versioning/weekone/{}/{}_temp_csv.csv".format(selected_model, selected_city)
+        print("PATH" , path)
         df = pd.read_csv(path)
         print("PRAPARE FOR DISPLAY " , d)
         df = heatwave_prepare(df)
@@ -710,6 +710,9 @@ with st.container():
             st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
                 df.loc[d, 'conditions']), unsafe_allow_html=True)
     else:
+        path = "./versioning/weekone/{}/{}_aqi_csv.csv".format(selected_model, selected_city)
+        # "./versioning/weekone/aqi/bangalore_aqi_csv.csv"
+        print("PATH" , path)
         df = pd.read_csv(path)
         df = aqi_prepare(df)
         print(df.columns)
