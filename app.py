@@ -674,6 +674,7 @@ with st.container():
     if selected_model == 'heatwave':
 
         df = pd.read_csv(path)
+        print("PRAPARE FOR DISPLAY")
         df = heatwave_prepare(df)
         
 
