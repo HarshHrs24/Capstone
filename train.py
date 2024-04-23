@@ -109,8 +109,8 @@ def weekly_update(city,model):
                         'tempmax': d['tempmax'],
                         'humidity': d['humidity'],
                         'windspeed': d['windspeed'],
-                        'cloudcover': d['clouds'],
-                        'conditions': d['weather'][0]['description'],
+                        'cloudcover': d['cloudcover'],
+                        'conditions': d['description'],
                     }, ignore_index=True)
                 start=start+60*60
                 # print(city,model)
