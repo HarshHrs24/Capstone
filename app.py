@@ -664,9 +664,8 @@ st.write("---")
 info("Description", "It will give the details of relevant parameters in reference to respective date and selected city.")
 
 with st.container():
-    path = "./versioning/weekone/{}/{}_temp_csv.csv".format(
-        # "./versioning/weekone/"
-        selected_model, selected_city)
+    path = "./versioning/weekone/{}/{}_temp_csv.csv".format(selected_model, selected_city)
+    
     print("PATH" , path)
     # datetime	datetimeEpoch	tempmax	tempmin	temp	feelslikemax	feelslikemin	feelslike	dew	humidity	precip	precipprob	precipcover	windspeed	cloudcover	conditions
 #   'datetime', 'Unnamed: 0', 'datetimeEpoch', 'tempmax', 'tempmin', 'temp','feelslikemax', 'feelslikemin', 'feelslike', 'dew', 'humidity','precip', 'precipprob', 'precipcover', 'windspeed', 'cloudcover','heat_index', 'occurence of heat wave'
@@ -674,8 +673,9 @@ with st.container():
     if selected_model == 'heatwave':
 
         df = pd.read_csv(path)
-        print("PRAPARE FOR DISPLAY")
+        print("PRAPARE FOR DISPLAY " , d)
         df = heatwave_prepare(df)
+        
         
 
         left_column, middle_column1, middle_column, right_column, middle_column2 = st.columns(5)
