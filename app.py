@@ -152,7 +152,7 @@ def heatwave_prepare(df):
         - 1.99 * (10**-6) * T * T * R * R
     )
     print(df.columns)
-    df['conditions'] = df['conditions']
+    # df['conditions'] = df['conditions']
     df["heat_index"] = hi
     df["occurence of heat wave"] = df["temp"].apply(
         lambda x: "yes" if x > 128 else "no"
