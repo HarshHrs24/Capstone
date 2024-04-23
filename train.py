@@ -112,7 +112,7 @@ def weekly_update(city,model):
                         'cloudcover': d['cloudcover'],
                         'conditions': d['description'],
                     }, ignore_index=True)
-                start=start+60*60
+                start=start+24*60*60
                 # print(city,model)
               else:
                  print("sleep")
