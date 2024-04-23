@@ -132,7 +132,7 @@ def heatwave_prepare(df):
     print(df.columns)
     df["datetime"] = pd.to_datetime(df["datetime"])
     df.set_index("datetime", inplace=True)
-    df = df.resample("d").max()
+    # df = df.resample("d").max()
     df = df.reset_index()
     df["date"] = df["datetime"].dt.date
     df.set_index("date", inplace=True)
