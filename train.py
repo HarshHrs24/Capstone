@@ -142,25 +142,25 @@ def weekly_update(city,model):
 
 def prophet_AQI(city):
 
-  one_prediction_model_name="versioning/weekone/aqi/{}_aqi_csv.csv".format(city)
+  one_data_file_name="versioning/weekone/aqi/{}_aqi_csv.csv".format(city)
   one_prediction_file_name="versioning/weekone/aqi/{}_aqi_csv_forecast.csv".format(city)
-  one_data_file_name="versioning/weekone/aqi/{}_aqi_csv.json".format(city)
+  one_prediction_model_name="versioning/weekone/aqi/{}_aqi_csv.json".format(city)
   
 
 
-  two_prediction_model_name="versioning/weektwo/aqi/{}_aqi_csv.csv".format(city)
+  two_data_file_name ="versioning/weektwo/aqi/{}_aqi_csv.csv".format(city)
   two_prediction_file_name="versioning/weektwo/aqi/{}_aqi_csv_forecast.csv".format(city)
-  two_data_file_name="versioning/weektwo/aqi/{}_aqi_csv.json".format(city)
+  two_prediction_model_name="versioning/weektwo/aqi/{}_aqi_csv.json".format(city)
 
-  three_prediction_model_name="versioning/weekthree/aqi/{}_aqi_csv.csv".format(city)
+  three_data_file_name="versioning/weekthree/aqi/{}_aqi_csv.csv".format(city)
   three_prediction_file_name="versioning/weekthree/aqi/{}_aqi_csv_forecast.csv".format(city)
-  three_data_file_name="versioning/weekthree/aqi/{}_aqi_csv.json".format(city)
+  three_prediction_model_name="versioning/weekthree/aqi/{}_aqi_csv.json".format(city)
 
-  four_prediction_model_name="versioning/weekfour/aqi/{}_aqi_csv.csv".format(city)
+  four_data_file_name="versioning/weekfour/aqi/{}_aqi_csv.csv".format(city)
   four_prediction_file_name="versioning/weekfour/aqi/{}_aqi_csv_forecast.csv".format(city)
-  four_data_file_name="versioning/weekfour/aqi/{}_aqi_csv.json".format(city)
+  four_prediction_model_name ="versioning/weekfour/aqi/{}_aqi_csv.json".format(city)
 
-  winner_prediction_model_name="winner/aqi/{}_aqi_csv.csv".format(city)
+  winner_prediction_model_name="winner/aqi/{}_aqi_csv.json".format(city)
   winner_prediction_file_name="winner/aqi/{}_aqi_csv_forecast.csv".format(city)
 
   
@@ -207,7 +207,7 @@ def prophet_AQI(city):
   with open(one_prediction_model_name, 'w') as fout:
     fout.write(model_to_json(model_optimized))  # Save model
   print("model saved")
-  forecast.to_csv(one_data_file_name, index=False)
+  forecast.to_csv(one_prediction_file_name, index=False)
   print("prediction file saved")
 
   # #updating log
@@ -248,34 +248,34 @@ def prophet_AQI(city):
 
 
 # prophet_AQI('bangalore')
-prophet_AQI('chennai')
-prophet_AQI('delhi')
-prophet_AQI('lucknow')
+# prophet_AQI('chennai')
+# prophet_AQI('delhi')
+# prophet_AQI('lucknow')
 
 
 
 
 
 def prophet_temp(city):
-  one_prediction_model_name="versioning/weekone/heatwave/{}_temp_csv.csv".format(city)
+  one_prediction_model_name="versioning/weekone/heatwave/{}_temp_csv.json".format(city)
   one_prediction_file_name="versioning/weekone/heatwave/{}_temp_csv_forecast.csv".format(city)
-  one_data_file_name="versioning/weekone/heatwave/{}_temp_csv".format(city)
+  one_data_file_name="versioning/weekone/heatwave/{}_temp_csv.csv".format(city)
   
 
 
-  two_prediction_model_name="versioning/weektwo/heatwave/{}_temp_csv.csv".format(city)
+  two_prediction_model_name="versioning/weektwo/heatwave/{}_temp_csv.json".format(city)
   two_prediction_file_name="versioning/weektwo/heatwave/{}_temp_csv_forecast.csv".format(city)
-  two_data_file_name="versioning/weektwo/heatwave/{}_temp_csv".format(city)
+  two_data_file_name="versioning/weektwo/heatwave/{}_temp_csv.csv".format(city)
 
-  three_prediction_model_name="versioning/weekthree/heatwave/{}_temp_csv.csv".format(city)
+  three_prediction_model_name="versioning/weekthree/heatwave/{}_temp_csv.json".format(city)
   three_prediction_file_name="versioning/weekthree/heatwave/{}_temp_csv_forecast.csv".format(city)
-  three_data_file_name="versioning/three/weekthree/heatwave/{}_temp_csv".format(city)
+  three_data_file_name="versioning/three/weekthree/heatwave/{}_temp_csv.csv".format(city)
 
-  four_prediction_model_name="versioning/weekfour/heatwave/{}_temp_csv.csv".format(city)
+  four_prediction_model_name="versioning/weekfour/heatwave/{}_temp_csv.json".format(city)
   four_prediction_file_name="versioning/weekfour/heatwave/{}_temp_csv_forecast.csv".format(city)
-  four_data_file_name="versioning/weekfour/heatwave/{}_temp_csv".format(city)
+  four_data_file_name="versioning/weekfour/heatwave/{}_temp_csv.csv".format(city)
 
-  winner_prediction_model_name="winner/heatwave/winner/{}_temp_csv.csv".format(city)
+  winner_prediction_model_name="winner/heatwave/winner/{}_temp_csv.json".format(city)
   winner_prediction_file_name="winner/heatwave/winner/{}_temp_csv_forecast.csv".format(city)
 
   
@@ -297,9 +297,9 @@ def prophet_temp(city):
   df = weekly_update(city,'Heat wave') #latest data
   df.to_csv(one_data_file_name, index=False)
 
-  data['time'] = pd.to_datetime(data['datetime'], dayfirst=True)
-  data['tmax'] = data['tempmax'].interpolate(method='linear')
-  data_prophet = data[['time', 'tmax']].rename(columns={'time': 'ds', 'tmax': 'y'})
+  df['time'] = pd.to_datetime(  df['datetime'], dayfirst=True)
+  df['tmax'] = df['tempmax'].interpolate(method='linear')
+  data_prophet = df[['time', 'tmax']].rename(columns={'time': 'ds', 'tmax': 'y'})
 
 
   model_optimized = Prophet(
@@ -307,9 +307,9 @@ def prophet_temp(city):
       seasonality_prior_scale = 0.1
 
   )
-  model_optimized.fit(train)
+  model_optimized.fit(data_prophet)
 
-  rmse=get_perf(model_optimized,data)
+  rmse=get_perf(model_optimized,   data_prophet)
   print(rmse)
 
   future = model_optimized.make_future_dataframe(periods=365) # horizon
@@ -363,7 +363,7 @@ def prophet_temp(city):
   
 
 
-# prophet_temp('bangalore')
+prophet_temp('bangalore')
 # prophet_temp('chennai')
 # prophet_temp('delhi')
 # prophet_temp('lucknow')
