@@ -101,7 +101,7 @@ def weekly_update(city,model):
               response = requests.get(url)
               if(response.status_code==200):
                 data = response.json()
-                print("data",data )
+                # print("data",data )
                 for d in data['days']:
                     # Extract the values from each dictionary and append to the DataFrame
                     w = w.append({
@@ -276,8 +276,8 @@ def prophet_temp(city):
   four_prediction_file_name="versioning/weekfour/heatwave/{}_temp_csv_forecast.csv".format(city)
   four_data_file_name="versioning/weekfour/heatwave/{}_temp_csv.csv".format(city)
 
-  winner_prediction_model_name="winner/heatwave/winner/{}_temp_csv.json".format(city)
-  winner_prediction_file_name="winner/heatwave/winner/{}_temp_csv_forecast.csv".format(city)
+  winner_prediction_model_name="winner/heatwave/{}_temp_csv.json".format(city)
+  winner_prediction_file_name="winner/heatwave/{}_temp_csv_forecast.csv".format(city)
 
   
 
