@@ -655,3 +655,83 @@ with st.container():
 
             folium_static(m, width=520, height=520)
 
+
+st.write("---")
+info("Description", "It will give the details of relevant parameters in reference to respective date and selected city.")
+
+with st.container():
+    path = "./versioning/weekone/{}/{}_temp_csv.csv".format(
+        # "./versioning/weekone/"
+        selected_model, selected_city)
+
+    if selected_model == 'heatwave':
+
+        df = pd.read_csv(path)
+        df = heatwave_prepare(df)
+
+        left_column, middle_column1, middle_column, right_column, middle_column2 = st.columns(
+            5)
+        with left_column:
+            st.write(
+                "<p style='color: #00C957; font-size: 20px;'>Temperature(°F) : </p>", unsafe_allow_html=True)
+            st.write(
+                "<p style='color: #00C957; font-size: 20px;'>Humidity : </p>", unsafe_allow_html=True)
+            st.write(
+                "<p style='color: #00C957; font-size: 20px;'>Heat index : </p>", unsafe_allow_html=True)
+        with middle_column1:
+            st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
+                df.loc[d, 'temp']), unsafe_allow_html=True)
+            st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
+                df.loc[d, 'humidity']), unsafe_allow_html=True)
+            st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
+                df.loc[d, 'heat_index']), unsafe_allow_html=True)
+        with middle_column:
+            st.write("                 ")
+        with right_column:
+            st.write(
+                "<p style='color: #00C957; font-size: 20px;'>Cloud cover : </p>", unsafe_allow_html=True)
+            st.write(
+                "<p style='color: #00C957; font-size: 20px;'>Wind speed : </p>", unsafe_allow_html=True)
+            st.write(
+                "<p style='color: #00C957; font-size: 20px;'>Condition : </p>", unsafe_allow_html=True)
+        with middle_column2:
+            st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
+                df.loc[d, 'cloudcover']), unsafe_allow_html=True)
+            st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
+                df.loc[d, 'windspeed']), unsafe_allow_html=True)
+            st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
+                df.loc[d, 'conditions']), unsafe_allow_html=True)
+    else:
+        df = pd.read_csv(path)
+        df = aqi_prepare(df)
+        left_column, middle_column1, right_column, middle_column2 = st.columns(
+            4)
+        with left_column:
+            st.write(
+                "<p style='color: #00C957; font-size: 20px;'>Carbon monoxide</p>", unsafe_allow_html=True)
+            st.write(
+                "<p style='color: #00C957; font-size: 20px;'>Nitrogen dioxide</p>", unsafe_allow_html=True)
+            st.write(
+                "<p style='color: #00C957; font-size: 20px;'>Ozone</p>", unsafe_allow_html=True)
+        with middle_column1:
+            st.write("<p style='color: #333333; font-size: 20px;'> : {}  μg/m3</p>".format(
+                df.loc[d, 'CO']), unsafe_allow_html=True)
+            st.write("<p style='color: #333333; font-size: 20px;'> : {}  μg/m3</p>".format(
+                df.loc[d, 'no2']), unsafe_allow_html=True)
+            st.write("<p style='color: #333333; font-size: 20px;'> : {}  μg/m3</p>".format(
+                df.loc[d, 'o3']), unsafe_allow_html=True)
+        with right_column:
+            st.write(
+                "<p style='color: #00C957; font-size: 20px;'>Sulphure dioxide</p>", unsafe_allow_html=True)
+            st.write(
+                "<p style='color: #00C957; font-size: 20px;'>Fine particles matter</p>", unsafe_allow_html=True)
+            st.write(
+                "<p style='color: #00C957; font-size: 20px;'>Ammonia</p>", unsafe_allow_html=True)
+        with middle_column2:
+            st.write("<p style='color: #333333; font-size: 20px;'> : {}  μg/m3</p>".format(
+                df.loc[d, 'so2']), unsafe_allow_html=True)
+            st.write("<p style='color: #333333; font-size: 20px;'> : {}  μg/m3</p>".format(
+                df.loc[d, 'pm2_5']), unsafe_allow_html=True)
+            st.write("<p style='color: #333333; font-size: 20px;'> : {}  μg/m3</p>".format(
+                df.loc[d, 'nh3']), unsafe_allow_html=True)
+
