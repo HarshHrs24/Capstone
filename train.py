@@ -247,10 +247,10 @@ def prophet_AQI(city):
 
 
 
-prophet_AQI('bangalore')
-# prophet_AQI('chennai')
-# prophet_AQI('delhi')
-# prophet_AQI('lucknow')
+# prophet_AQI('bangalore')
+prophet_AQI('chennai')
+prophet_AQI('delhi')
+prophet_AQI('lucknow')
 
 
 
