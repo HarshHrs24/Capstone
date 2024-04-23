@@ -151,11 +151,11 @@ def heatwave_prepare(df):
         + 8.5282 * (10**-4) * T * R * R
         - 1.99 * (10**-6) * T * T * R * R
     )
+    df['conditions'] = df['conditions']
     df["heat_index"] = hi
     df["occurence of heat wave"] = df["temp"].apply(
         lambda x: "yes" if x > 128 else "no"
     )
-    df['conditions'] = df['conditions']
     print(df.columns)
     return df
 
@@ -676,8 +676,7 @@ with st.container():
         df = heatwave_prepare(df)
         
 
-        left_column, middle_column1, middle_column, right_column, middle_column2 = st.columns(
-            5)
+        left_column, middle_column1, middle_column, right_column, middle_column2 = st.columns(5)
         with left_column:
             st.write(
                 "<p style='color: #00C957; font-size: 20px;'>Temperature(°F) : </p>", unsafe_allow_html=True)
