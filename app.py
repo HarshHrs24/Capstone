@@ -155,6 +155,8 @@ def heatwave_prepare(df):
     df["occurence of heat wave"] = df["temp"].apply(
         lambda x: "yes" if x > 128 else "no"
     )
+    df['conditions'] = df['conditions']
+    print(df.columns)
     return df
 
 def aqi_prepare(df):
