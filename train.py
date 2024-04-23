@@ -269,7 +269,7 @@ def prophet_temp(city):
 
   three_prediction_model_name="versioning/weekthree/heatwave/{}_temp_csv.json".format(city)
   three_prediction_file_name="versioning/weekthree/heatwave/{}_temp_csv_forecast.csv".format(city)
-  three_data_file_name="versioning/three/weekthree/heatwave/{}_temp_csv.csv".format(city)
+  three_data_file_name="versioning/weekthree/heatwave/{}_temp_csv.csv".format(city)
 
   four_prediction_model_name="versioning/weekfour/heatwave/{}_temp_csv.json".format(city)
   four_prediction_file_name="versioning/weekfour/heatwave/{}_temp_csv_forecast.csv".format(city)
