@@ -294,7 +294,7 @@ def prophet_temp(city):
   os.rename(one_data_file_name, two_data_file_name)
 
   #weekly update via api
-  df = weekly_update(city,'Heat wave') #latest data
+  df = weekly_update(city,'heatwave') #latest data
   df.to_csv(one_data_file_name, index=False)
 
   df['time'] = pd.to_datetime(  df['datetime'], dayfirst=True)
