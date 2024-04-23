@@ -129,6 +129,7 @@ def line_plot_plotly(m, forecast, mode, model):
 
 # NEW
 def heatwave_prepare(df):
+    print(df.columns)
     df["datetime"] = pd.to_datetime(df["datetime"])
     df.set_index("datetime", inplace=True)
     df = df.resample("d").max()
@@ -663,12 +664,15 @@ with st.container():
     path = "./versioning/weekone/{}/{}_temp_csv.csv".format(
         # "./versioning/weekone/"
         selected_model, selected_city)
+    print("PATH" , path)
+    # datetime	datetimeEpoch	tempmax	tempmin	temp	feelslikemax	feelslikemin	feelslike	dew	humidity	precip	precipprob	precipcover	windspeed	cloudcover	conditions
+#   'datetime', 'Unnamed: 0', 'datetimeEpoch', 'tempmax', 'tempmin', 'temp','feelslikemax', 'feelslikemin', 'feelslike', 'dew', 'humidity','precip', 'precipprob', 'precipcover', 'windspeed', 'cloudcover','heat_index', 'occurence of heat wave'
 
     if selected_model == 'heatwave':
 
         df = pd.read_csv(path)
         df = heatwave_prepare(df)
-        print(df.columns)
+        
 
         left_column, middle_column1, middle_column, right_column, middle_column2 = st.columns(
             5)
