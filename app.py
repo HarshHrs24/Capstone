@@ -218,7 +218,7 @@ def timeline_prepare(df, model):
         )
         fcst.reset_index(inplace = True)
         
-        print(df["yhat_upper"].max())
+        # print(df["yhat_upper"].max())
         # df = df.iloc[4017:]
         print('occour:', fcst['occurence of heat wave'].value_counts())
 
@@ -236,7 +236,9 @@ if selected_model == "heatwave":
     df = pd.read_csv(path)
     df = timeline_prepare(df, selected_model)
 
+    print('occour:', df['occurence of heat wave'].value_counts())
     df = df[df["occurence of heat wave"] == "yes"]
+    
     # Convert the dataframe to a list of dictionaries
     items = []
     i = 1
