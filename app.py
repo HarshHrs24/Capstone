@@ -212,19 +212,19 @@ def timeline_prepare(df, model):
         
         # fcst = df.set_index('ds')
         # start_of_year = pd.to_datetime('2024-01-01')
-        fcst = fcst[fcst['ds'] >= pd.to_datetime('2024-01-01')]
-        fcst = fcst[fcst['ds'] < pd.to_datetime('2025-01-01')]
+        df = df[df['ds'] >= pd.to_datetime('2024-01-01')]
+        df = df[df['ds'] < pd.to_datetime('2025-01-01')]
         
-        fcst["occurence of heat wave"] = fcst["yhat_upper"].apply(
+        df["occurence of heat wave"] = df["yhat_upper"].apply(
             lambda x: "yes" if x >= 39.0 else "no"
         )
         # fcst.reset_index(inplace = True)
 
         # print(df["yhat_upper"].max())
         # df = df.iloc[4017:]
-        print('occour:', fcst['occurence of heat wave'].value_counts())
+        print('occour:', df['occurence of heat wave'].value_counts())
 
-        return fcst
+        return df
     else:
         df["yhat"] = df["yhat"].apply(conv)
         df["Extreme AQI events"] = df["yhat"].apply(lambda x: "yes" if x > 4 else "no")
