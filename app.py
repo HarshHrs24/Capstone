@@ -254,7 +254,7 @@ if selected_model == "heatwave":
         items.append(item)
         i = i + 1
         
-    print('item len',i , len(item) , item)
+    print('item len',i , len(item) , items)
     
     timeine_title = "Major Heat wave occurrences in the year 2023"
     st.header(timeine_title)
