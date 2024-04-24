@@ -234,7 +234,7 @@ def timeline_prepare(df, model):
 selected_city = selected_city.lower()
 if selected_model == "heatwave":
     # path = "./versioning/weekone/{}/{}_temp_csv_forecast.csv".format(selected_model , selected_city)
-    path = "./timeline/forecast_{selected_city}.csv".format(selected_city)
+    path = "./timeline/forecast_{}.csv".format(selected_city)
     # C:\Users\PETE\Desktop\py-workspace\TASK\MAPUP\SUBMISSION\Capstone\timeline\forecast_bangalore.csv
 
     df = pd.read_csv(path)
