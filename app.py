@@ -208,7 +208,7 @@ Created with ❤️ by [Team Tarang.ai](https://github.com/iamneo-production/00a
 
 def timeline_prepare(df, model):
     if model == "heatwave":
-        fcst = df.set_index('dt')
+        fcst = df.set_index('ds')
         start_of_year = pd.to_datetime('2024-01-01')
         fcst = fcst[fcst.index >= start_of_year]
         fcst["occurence of heat wave"] = fcst["yhat_upper"].apply(
