@@ -208,7 +208,7 @@ Created with ❤️ by [Team Tarang.ai](https://github.com/iamneo-production/00a
 
 def timeline_prepare(df, model):
     if model == "heatwave":
-        df['ds'] = pd.to_datetime(df['ds'] , format='mixed')
+        df['ds'] = pd.to_datetime(df['ds'] )
         
         fcst = df.set_index('ds')
         start_of_year = pd.to_datetime('2024-01-01')
