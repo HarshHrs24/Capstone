@@ -210,15 +210,15 @@ def timeline_prepare(df, model):
     if model == "heatwave":
         df['ds'] = pd.to_datetime(df['ds'] )
         
-        fcst = df.set_index('ds')
-        start_of_year = pd.to_datetime('2024-01-01')
-        fcst = fcst[fcst.index >= pd.to_datetime('2024-01-01')]
-        fcst = fcst[fcst.index < pd.to_datetime('2025-01-01')]
+        # fcst = df.set_index('ds')
+        # start_of_year = pd.to_datetime('2024-01-01')
+        fcst = fcst[fcst['ds'] >= pd.to_datetime('2024-01-01')]
+        fcst = fcst[fcst['ds'] < pd.to_datetime('2025-01-01')]
         
         fcst["occurence of heat wave"] = fcst["yhat_upper"].apply(
             lambda x: "yes" if x >= 39.0 else "no"
         )
-        fcst.reset_index(inplace = True)
+        # fcst.reset_index(inplace = True)
 
         # print(df["yhat_upper"].max())
         # df = df.iloc[4017:]
@@ -258,7 +258,7 @@ if selected_model == "heatwave":
         items.append(item)
         i = i + 1
         
-    print('item len',i , len(item) , items)
+    print('item len',i , len(items) , items)
     
     timeine_title = "Major Heat wave occurrences in the year 2023"
     st.header(timeine_title)
