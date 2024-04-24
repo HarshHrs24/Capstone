@@ -212,12 +212,14 @@ def timeline_prepare(df, model):
         
         fcst = df.set_index('ds')
         start_of_year = pd.to_datetime('2024-01-01')
-        fcst = fcst[fcst.index >= start_of_year]
+        fcst = fcst[fcst.index >= pd.to_datetime('2024-01-01')]
+        fcst = fcst[fcst.index < pd.to_datetime('2025-01-01')]
+        
         fcst["occurence of heat wave"] = fcst["yhat_upper"].apply(
             lambda x: "yes" if x >= 39.0 else "no"
         )
         fcst.reset_index(inplace = True)
-        
+
         # print(df["yhat_upper"].max())
         # df = df.iloc[4017:]
         print('occour:', fcst['occurence of heat wave'].value_counts())
@@ -231,7 +233,9 @@ def timeline_prepare(df, model):
 
 selected_city = selected_city.lower()
 if selected_model == "heatwave":
-    path = "./versioning/weekone/{}/{}_temp_csv_forecast.csv".format(selected_model , selected_city)
+    # path = "./versioning/weekone/{}/{}_temp_csv_forecast.csv".format(selected_model , selected_city)
+    path = "./timeline/forecast_{selected_city}.csv".format(selected_city)
+    # C:\Users\PETE\Desktop\py-workspace\TASK\MAPUP\SUBMISSION\Capstone\timeline\forecast_bangalore.csv
 
     df = pd.read_csv(path)
     df = timeline_prepare(df, selected_model)
