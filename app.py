@@ -208,17 +208,22 @@ Created with ❤️ by [Team Tarang.ai](https://github.com/iamneo-production/00a
 
 def timeline_prepare(df, model):
     if model == "heatwave":
-        df["occurence of heat wave"] = df["yhat_upper"].apply(
+        fcst = df.set_index('dt')
+        start_of_year = pd.to_datetime('2024-01-01')
+        fcst = fcst[fcst.index >= start_of_year]
+        fcst["occurence of heat wave"] = fcst["yhat_upper"].apply(
             lambda x: "yes" if x >= 39.0 else "no"
         )
         print(df["yhat_upper"].max())
-        df = df.iloc[4017:]
-        print('occour:', df['occurence of heat wave'].value_counts())
+        # df = df.iloc[4017:]
+        print('occour:', fcst['occurence of heat wave'].value_counts())
 
+        return fcst
     else:
         df["yhat"] = df["yhat"].apply(conv)
         df["Extreme AQI events"] = df["yhat"].apply(lambda x: "yes" if x > 4 else "no")
-    return df
+        
+        return df
 
 selected_city = selected_city.lower()
 if selected_model == "heatwave":
@@ -234,9 +239,11 @@ if selected_model == "heatwave":
     for index, row in df.iterrows():
         yhat_upper = str(row["yhat_upper"])
         yhat_lower = str(row["yhat_lower"])
+        
         content = "On {}, {} is expected to experience a maximum temperature of {} and a minimum temperature of {}.".format(
             str(row["ds"]), selected_city, yhat_upper, yhat_lower
         )
+
         item = {"id": i, "content": "⚠", "message": content, "start": str(row["ds"])}
         items.append(item)
         i = i + 1
