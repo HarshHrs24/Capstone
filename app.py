@@ -238,10 +238,15 @@ if selected_model == "heatwave":
     # C:\Users\PETE\Desktop\py-workspace\TASK\MAPUP\SUBMISSION\Capstone\timeline\forecast_bangalore.csv
 
     df = pd.read_csv(path)
-    df = timeline_prepare(df, selected_model)
+    df['ds'] = pd.to_datetime(df['ds'] )
+    df = df[df['ds'] >= pd.to_datetime('2024-01-01') ]
+    df = df[df['ds'] < pd.to_datetime('2025-01-01') ]
+    print("SHAPE" , df.shape)
+    # df = timeline_prepare(df, selected_model)
 
     print('occour:', df['occurence of heat wave'].value_counts())
-    df = df[df["occurence of heat wave"] == "yes"]
+    
+    df = df[df["yhat_upper"] >= 39]
     
     # Convert the dataframe to a list of dictionaries
     items = []
