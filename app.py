@@ -249,7 +249,7 @@ if selected_model == "heatwave":
     
     
     if selected_city == 'lucknow':
-        df = df[df["yhat_upper"] >= 39.5]
+        df = df[df["yhat_upper"] >= 39]
     elif selected_city == 'chennai':
         df = df[df["yhat_upper"] >= 39]
     elif selected_city == 'bangalore':
