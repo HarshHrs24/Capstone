@@ -244,7 +244,7 @@ if selected_model == "heatwave":
     print("SHAPE" , df.shape)
     # df = timeline_prepare(df, selected_model)
 
-    print('occour:', df['occurence of heat wave'].value_counts())
+    # print('occour:', df['occurence of heat wave'].value_counts())
     
     df = df[df["yhat_upper"] >= 39]
     
