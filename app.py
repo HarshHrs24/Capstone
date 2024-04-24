@@ -237,6 +237,7 @@ if selected_model == "heatwave":
     path = "./timeline/forecast_{}.csv".format(selected_city)
     # C:\Users\PETE\Desktop\py-workspace\TASK\MAPUP\SUBMISSION\Capstone\timeline\forecast_bangalore.csv
 
+        
     df = pd.read_csv(path)
     df['ds'] = pd.to_datetime(df['ds'] )
     df = df[df['ds'] >= pd.to_datetime('2024-01-01') ]
@@ -247,7 +248,15 @@ if selected_model == "heatwave":
     # print('occour:', df['occurence of heat wave'].value_counts())
     
     
-    df = df[df["yhat_upper"] >= 39]
+    if selected_city == 'lucknow':
+        df = df[df["yhat_upper"] >= 39]
+    elif selected_city == 'chennai':
+        df = df[df["yhat_upper"] >= 39]
+    elif selected_city == 'bangalore':
+        df = df[df["yhat_upper"] >= 39]
+    elif selected_city == 'delhi':
+        df = df[df["yhat_upper"] >= 39]
+        
     
     # Convert the dataframe to a list of dictionaries
     items = []
