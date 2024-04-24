@@ -241,10 +241,11 @@ if selected_model == "heatwave":
     df['ds'] = pd.to_datetime(df['ds'] )
     df = df[df['ds'] >= pd.to_datetime('2024-01-01') ]
     df = df[df['ds'] < pd.to_datetime('2025-01-01') ]
-    print("SHAPE" , df.shape)
+    print("SHAPE",selected_city , df.shape)
     # df = timeline_prepare(df, selected_model)
 
     # print('occour:', df['occurence of heat wave'].value_counts())
+    
     
     df = df[df["yhat_upper"] >= 39]
     
