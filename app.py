@@ -192,7 +192,7 @@ selected_model = st.sidebar.selectbox('Choose:', ('Heat wave', 'AQI'))
 selected_model = "".join(selected_model.split(" "))
 selected_model = selected_model.lower()
 st.sidebar.write('''''')
-cities = ('bangalore','Delhi', 'Chennai', 'Lucknow' )
+cities = ('Delhi', 'Chennai', 'Lucknow','bangalore' )
 selected_city = st.sidebar.selectbox('Select a city for prediction', cities)
 selected_city = selected_city.lower()
 print("SELECTION:PARAMS" , selected_city , selected_model)
@@ -255,7 +255,7 @@ if selected_model == "heatwave":
     elif selected_city == 'bangalore':
         df = df[df["yhat_upper"] >= 39]
     elif selected_city == 'delhi':
-        df = df[df["yhat_upper"] >= 39]
+        df = df[df["yhat_upper"] >= 43]
         
     
     # Convert the dataframe to a list of dictionaries
