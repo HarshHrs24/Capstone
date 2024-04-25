@@ -237,7 +237,7 @@ def prophet_AQI(city):
     shutil.copy(four_prediction_file_name, winner_prediction_file_name)  
   
 
-# prophet_AQI('bangalore')
+prophet_AQI('bangalore')
 prophet_AQI('chennai')
 prophet_AQI('delhi')
 prophet_AQI('lucknow')
@@ -351,7 +351,7 @@ def prophet_temp(city):
   
 
 
-# prophet_temp('bangalore')
+prophet_temp('bangalore')
 prophet_temp('chennai')
 prophet_temp('delhi')
 prophet_temp('lucknow')
