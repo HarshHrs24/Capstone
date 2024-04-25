@@ -63,6 +63,9 @@ def weekly_update(city,model):
     df.to_csv(retrain_log_path, index=False)
 
 
+    print("start ",start," end ",end)
+
+
 
     # requesting AQI data from API
     if model=='AQI':
@@ -167,6 +170,7 @@ def prophet_AQI(city):
   os.rename(one_data_file_name, two_data_file_name)
 
   #weekly update via api 
+  print(one_prediction_file_name,'AQI')
   df = weekly_update(city,'AQI')
   df.to_csv(one_prediction_file_name, index=False)
 
@@ -346,7 +350,7 @@ def prophet_temp(city):
   
 
 
-prophet_temp('bangalore')
+# prophet_temp('bangalore')
 # prophet_temp('chennai')
 # prophet_temp('delhi')
 # prophet_temp('lucknow')

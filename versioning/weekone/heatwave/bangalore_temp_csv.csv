@@ -1,4 +1,4 @@
-Unnamed: 0,datetime,datetimeEpoch,tempmax,humidity,windspeed,cloudcover,description
+,datetime,datetimeEpoch,tempmax,humidity,windspeed,cloudcover,description
 0,2010-01-01,1262284200,27.1,72.4,20.5,37.9,Partly cloudy throughout the day with early morning rain.
 1,2010-01-02,1262370600,27.0,67.0,18.4,31.5,Partly cloudy throughout the day.
 2,2010-01-03,1262457000,26.1,67.9,16.6,45.4,Partly cloudy throughout the day.
