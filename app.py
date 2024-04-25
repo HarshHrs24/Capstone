@@ -231,111 +231,10 @@ def timeline_prepare(df, model):
         
         return df
 
-selected_city = selected_city.lower()
-if selected_model == "heatwave":
-    # path = "./versioning/weekone/{}/{}_temp_csv_forecast.csv".format(selected_model , selected_city)
-    path = "./timeline/forecast_{}.csv".format(selected_city)
-    # C:\Users\PETE\Desktop\py-workspace\TASK\MAPUP\SUBMISSION\Capstone\timeline\forecast_bangalore.csv
 
-        
-    df = pd.read_csv(path)
-    df['ds'] = pd.to_datetime(df['ds'] )
-    df = df[df['ds'] >= pd.to_datetime('2024-01-01') ]
-    df = df[df['ds'] < pd.to_datetime('2025-01-01') ]
-    print("SHAPE",selected_city , df.shape)
-    # df = timeline_prepare(df, selected_model)
-
-    # print('occour:', df['occurence of heat wave'].value_counts())
-    
-    
-    if selected_city == 'lucknow':
-        df = df[df["yhat_upper"] >= 39]
-    elif selected_city == 'chennai':
-        df = df[df["yhat_upper"] >= 39]
-    elif selected_city == 'bangalore':
-        df = df[df["yhat_upper"] >= 39]
-    elif selected_city == 'delhi':
-        df = df[df["yhat_upper"] >= 43]
-        
-    
-    # Convert the dataframe to a list of dictionaries
-    items = []
-    i = 1
-    for index, row in df.iterrows():
-        yhat_upper = str(row["yhat_upper"])
-        yhat_lower = str(row["yhat_lower"])
-        
-        content = "On {}, {} is expected to experience a maximum temperature of {} and a minimum temperature of {}.".format(
-            str(row["ds"]), selected_city, yhat_upper, yhat_lower
-        )
-
-        item = {"id": i, "content": "⚠", "message": content, "start": str(row["ds"])}
-        items.append(item)
-        i = i + 1
-        
-    print('item len',i , len(items) , items)
-    
-    timeine_title = "Major Heat wave occurrences in the year 2023"
-    st.header(timeine_title)
-    info(
-        "Info",
-        "The timeline highlights the major events in the year 2023 regarding the occurrence of Heat waves.",
-    )
-
-    options = {"min": "2024-01-01", "max": "2024-12-31"}
-
-    timeline = st_timeline(items, groups=[], options=options, height="300px")
-    st.subheader("Selected item")
-    st.write(timeline)
-else:
-    path = "./winner/{}/{}_aqi_csv_forecast.csv".format(selected_model, selected_city)
-    # winner/AQI/bangalore_aqi_csv_forecast.csv
-    # winner\AQI\bangalore_aqi_csv_forecast.csv
-    
-    
-    print("PATH:" ,path)
-    df = pd.read_csv(path)
-    df = timeline_prepare(df, selected_model)
-    df = df[df["Extreme AQI events"] == "yes"]
-
-    # Convert the dataframe to a list of dictionaries
-    items = []
-    i = 1
-    for index, row in df.iterrows():
-        yhat = str(row["yhat"])
-        content = "The predicted AQI for {} on {} is {}".format(
-            selected_city, str(row["ds"]), yhat
-        )
-        item = {"id": i, "content": "⚠", "message": content, "start": str(row["ds"])}
-        items.append(item)
-        i = i + 1
-
-    timeine_title = (
-        "Major events in the year 2023 regarding severe Air Quality conditions."
-    )
-    st.header(timeine_title)
-
-    info(
-        "Info",
-        "The timeline highlights the major events in the year 2023 regarding severe Air Quality conditions",
-    )
-
-    options = {"min": "2024-01-01", "max": "2024-12-31"}
-
-    timeline = st_timeline(items, groups=[], options=options, height="300px")
-    st.subheader("Selected item")
-    st.write(timeline)
     
     
     
-# ___MAP___ 
-selected_city = selected_city.lower()
-retrain_log_path = "./retrain/heatwave/{}_retrain_log.csv".format(selected_city)
-print('retrain_log_path:',retrain_log_path)
-
-df = pd.read_csv(retrain_log_path)
-# './retrain/aqi/bangalore_retrain_log.csv'
-# "./retrain/aqi/bangalore_retrain_log.csv"
 
 
 
@@ -525,6 +424,111 @@ else:
     )
     st.plotly_chart(fig1)
 
+# __TIMELINE__
+
+if selected_model == "heatwave":
+    # path = "./versioning/weekone/{}/{}_temp_csv_forecast.csv".format(selected_model , selected_city)
+    path = "./timeline/forecast_{}.csv".format(selected_city)
+    # C:\Users\PETE\Desktop\py-workspace\TASK\MAPUP\SUBMISSION\Capstone\timeline\forecast_bangalore.csv
+
+        
+    df = pd.read_csv(path)
+    df['ds'] = pd.to_datetime(df['ds'] )
+    df = df[df['ds'] >= pd.to_datetime('2024-01-01') ]
+    df = df[df['ds'] < pd.to_datetime('2025-01-01') ]
+    print("SHAPE",selected_city , df.shape)
+    # df = timeline_prepare(df, selected_model)
+
+    # print('occour:', df['occurence of heat wave'].value_counts())
+    
+    
+    if selected_city == 'lucknow':
+        df = df[df["yhat_upper"] >= 39]
+    elif selected_city == 'chennai':
+        df = df[df["yhat_upper"] >= 39]
+    elif selected_city == 'bangalore':
+        df = df[df["yhat_upper"] >= 39]
+    elif selected_city == 'delhi':
+        df = df[df["yhat_upper"] >= 43]
+        
+    
+    # Convert the dataframe to a list of dictionaries
+    items = []
+    i = 1
+    for index, row in df.iterrows():
+        yhat_upper = str(row["yhat_upper"])
+        yhat_lower = str(row["yhat_lower"])
+        
+        content = "On {}, {} is expected to experience a maximum temperature of {} and a minimum temperature of {}.".format(
+            str(row["ds"]), selected_city, yhat_upper, yhat_lower
+        )
+
+        item = {"id": i, "content": "⚠", "message": content, "start": str(row["ds"])}
+        items.append(item)
+        i = i + 1
+        
+    print('item len',i , len(items) , items)
+    
+    timeine_title = "Major Heat wave occurrences in the year 2023"
+    st.header(timeine_title)
+    info(
+        "Info",
+        "The timeline highlights the major events in the year 2023 regarding the occurrence of Heat waves.",
+    )
+
+    options = {"min": "2024-01-01", "max": "2024-12-31"}
+
+    timeline = st_timeline(items, groups=[], options=options, height="300px")
+    st.subheader("Selected item")
+    st.write(timeline)
+else:
+    path = "./winner/{}/{}_aqi_csv_forecast.csv".format(selected_model, selected_city)
+    # winner/AQI/bangalore_aqi_csv_forecast.csv
+    # winner\AQI\bangalore_aqi_csv_forecast.csv
+    
+    
+    print("PATH:" ,path)
+    df = pd.read_csv(path)
+    df = timeline_prepare(df, selected_model)
+    df = df[df["Extreme AQI events"] == "yes"]
+
+    # Convert the dataframe to a list of dictionaries
+    items = []
+    i = 1
+    for index, row in df.iterrows():
+        yhat = str(row["yhat"])
+        content = "The predicted AQI for {} on {} is {}".format(
+            selected_city, str(row["ds"]), yhat
+        )
+        item = {"id": i, "content": "⚠", "message": content, "start": str(row["ds"])}
+        items.append(item)
+        i = i + 1
+
+    timeine_title = (
+        "Major events in the year 2023 regarding severe Air Quality conditions."
+    )
+    st.header(timeine_title)
+
+    info(
+        "Info",
+        "The timeline highlights the major events in the year 2023 regarding severe Air Quality conditions",
+    )
+
+    options = {"min": "2024-01-01", "max": "2024-12-31"}
+
+    timeline = st_timeline(items, groups=[], options=options, height="300px")
+    st.subheader("Selected item")
+    st.write(timeline)
+
+
+# ___MAP___ 
+selected_city = selected_city.lower()
+retrain_log_path = "./retrain/heatwave/{}_retrain_log.csv".format(selected_city)
+print('retrain_log_path:',retrain_log_path)
+
+df = pd.read_csv(retrain_log_path)
+# './retrain/aqi/bangalore_retrain_log.csv'
+# "./retrain/aqi/bangalore_retrain_log.csv"
 
 
 with st.container():
