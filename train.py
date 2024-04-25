@@ -170,9 +170,9 @@ def prophet_AQI(city):
   os.rename(one_data_file_name, two_data_file_name)
 
   #weekly update via api 
-  print(one_prediction_file_name,'AQI')
+  print(one_data_file_name,'AQI')
   df = weekly_update(city,'AQI')
-  df.to_csv(one_prediction_file_name, index=False)
+  df.to_csv(one_data_file_name, index=False)
 
 
 
