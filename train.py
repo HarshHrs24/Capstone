@@ -50,7 +50,7 @@ def weekly_update(city,model):
     retrain_log_path="retrain/{}/{}_retrain_log.csv".format(model,city)
     df = pd.read_csv(retrain_log_path)
     # new_value1 = int(time.time())
-    new_value1 =  1712946610
+    new_value1 =  1713551410
     print(new_value1)
     start = df['last updated date'].iloc[-1] + 60 * 60
     end=df['last updated date'].iloc[-1]
