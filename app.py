@@ -746,7 +746,7 @@ with st.container():
             st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
                 df.loc[d, 'windspeed']), unsafe_allow_html=True)
             st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
-                df.loc[d, 'conditions']), unsafe_allow_html=True)
+                df.loc[d, 'description']), unsafe_allow_html=True)
     else:
         path = "./versioning/weekone/{}/{}_aqi_csv.csv".format(selected_model, selected_city)
         # "./versioning/weekone/aqi/bangalore_aqi_csv.csv"
