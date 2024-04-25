@@ -234,31 +234,6 @@ def timeline_prepare(df, model):
 
     
     
-    
-
-
-
-# Unix timestamp in seconds
-unix_timestamp = df["last updated date"].iloc[-1]
-
-# Convert Unix timestamp to datetime object
-date_time = datetime.datetime.fromtimestamp(unix_timestamp)
-
-year_string = int(date_time.strftime("%Y"))
-month_string = int(date_time.strftime("%m"))
-date_string = int(date_time.strftime("%d"))
-
-
-if selected_model == "heatwave":
-    min_date = datetime.date(2012, 1, 1)
-    max_date = datetime.date(year_string, month_string, date_string)
-else:
-    min_date = datetime.date(2020, 12, 2)
-    max_date = datetime.date(year_string, month_string, date_string)
-
-d = st.date_input(
-    "Choose a date", datetime.date(2023, 1, 1), min_value=min_date, max_value=max_date
-)
 
 
 
@@ -519,6 +494,8 @@ else:
     timeline = st_timeline(items, groups=[], options=options, height="300px")
     st.subheader("Selected item")
     st.write(timeline)
+    
+
 
 
 # ___MAP___ 
@@ -529,6 +506,29 @@ print('retrain_log_path:',retrain_log_path)
 df = pd.read_csv(retrain_log_path)
 # './retrain/aqi/bangalore_retrain_log.csv'
 # "./retrain/aqi/bangalore_retrain_log.csv"
+
+# Unix timestamp in seconds
+unix_timestamp = df["last updated date"].iloc[-1]
+
+# Convert Unix timestamp to datetime object
+date_time = datetime.datetime.fromtimestamp(unix_timestamp)
+
+year_string = int(date_time.strftime("%Y"))
+month_string = int(date_time.strftime("%m"))
+date_string = int(date_time.strftime("%d"))
+
+
+if selected_model == "heatwave":
+    min_date = datetime.date(2012, 1, 1)
+    max_date = datetime.date(year_string, month_string, date_string)
+else:
+    min_date = datetime.date(2020, 12, 2)
+    max_date = datetime.date(year_string, month_string, date_string)
+
+d = st.date_input(
+    "Choose a date", datetime.date(2023, 1, 1), min_value=min_date, max_value=max_date
+)
+
 
 
 with st.container():
