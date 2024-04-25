@@ -237,7 +237,7 @@ def prophet_AQI(city):
     shutil.copy(four_prediction_file_name, winner_prediction_file_name)  
   
 
-prophet_AQI('bangalore')
+# prophet_AQI('bangalore')
 # prophet_AQI('chennai')
 # prophet_AQI('delhi')
 # prophet_AQI('lucknow')
@@ -281,6 +281,7 @@ def prophet_temp(city):
   os.rename(one_data_file_name, two_data_file_name)
 
   #weekly update via api
+  print(one_data_file_name,'heatwave')
   df = weekly_update(city,'heatwave') #latest data
   df.to_csv(one_data_file_name, index=False)
 
@@ -350,7 +351,7 @@ def prophet_temp(city):
   
 
 
-# prophet_temp('bangalore')
+prophet_temp('bangalore')
 # prophet_temp('chennai')
 # prophet_temp('delhi')
 # prophet_temp('lucknow')
