@@ -136,7 +136,7 @@ def heatwave_prepare(df):
     df = df.reset_index()
     df["date"] = df["datetime"].dt.date
     df.set_index("date", inplace=True)
-    T = (df["temp"] * 9 / 5) + 32
+    T = (df["tempmax"] * 9 / 5) + 32
     df["temp"] = T
     R = df["humidity"]
     # Calculating Heat index using heat index chart formula
