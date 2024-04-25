@@ -110,7 +110,7 @@ def weekly_update(city,model):
                         'humidity': d['humidity'],
                         'windspeed': d['windspeed'],
                         'cloudcover': d['cloudcover'],
-                        'conditions': d['description'],
+                        'description': d['description'],
                     }, ignore_index=True)
                 start=start+24*60*60
                 # print(city,model)
@@ -233,7 +233,7 @@ def prophet_AQI(city):
     shutil.copy(four_prediction_file_name, winner_prediction_file_name)  
   
 
-# prophet_AQI('bangalore')
+prophet_AQI('bangalore')
 # prophet_AQI('chennai')
 # prophet_AQI('delhi')
 # prophet_AQI('lucknow')
