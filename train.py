@@ -120,7 +120,7 @@ def weekly_update(city,model):
               else:
                  print("sleep")
                  time.sleep(5)
-                 start=start+60*60
+                 start=start+24*60*60
           data_path='versioning/weektwo/heatwave/{}_temp_csv.csv'.format(city)
           df_new = pd.read_csv(data_path)
           df_new['datetime'] =  pd.to_datetime(df_new['datetime'])
@@ -238,9 +238,9 @@ def prophet_AQI(city):
   
 
 # prophet_AQI('bangalore')
-# prophet_AQI('chennai')
-# prophet_AQI('delhi')
-# prophet_AQI('lucknow')
+prophet_AQI('chennai')
+prophet_AQI('delhi')
+prophet_AQI('lucknow')
 
 
 def prophet_temp(city):
@@ -351,7 +351,7 @@ def prophet_temp(city):
   
 
 
-prophet_temp('bangalore')
-# prophet_temp('chennai')
-# prophet_temp('delhi')
-# prophet_temp('lucknow')
+# prophet_temp('bangalore')
+prophet_temp('chennai')
+prophet_temp('delhi')
+prophet_temp('lucknow')
