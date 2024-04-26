@@ -54,6 +54,7 @@ def conv(x):
 
 # to load next year prediction
 def load_prediction(selected_model, city):
+    print('load_prediction:',selected_model , city)
     # path = "./winner/{}/{}_{}_csv_forecast.csv".format(selected_model, city)
     if selected_model == 'heatwave':
         path = "./winner/{}/{}_temp_csv_forecast.csv".format(selected_model, city)
@@ -78,6 +79,7 @@ def load_model(selected_model, city):
         path = "./winner/{}/{}_temp_csv.json".format(selected_model, city)
     else:
         path = "./winner/{}/{}_aqi_csv.json".format(selected_model, city)
+        # bangalore_aqi_csv_forecast
         # './winner/aqi/bangalore_aqi_csv.json'
     city = city.lower()
     with open(path, 'r') as fin:
@@ -85,6 +87,7 @@ def load_model(selected_model, city):
     return m
 
 def line_plot_plotly(m, forecast, mode, model):
+    print(forecast.columns)
     past = m.history['y']
     future = forecast['yhat']
     if model == 'AQI':
@@ -129,7 +132,7 @@ def line_plot_plotly(m, forecast, mode, model):
 
 # NEW
 def heatwave_prepare(df):
-    print(df.columns)
+    # print(df.columns)
     df["datetime"] = pd.to_datetime(df["datetime"])
     df.set_index("datetime", inplace=True)
     # df = df.resample("d").max()
@@ -151,13 +154,13 @@ def heatwave_prepare(df):
         + 8.5282 * (10**-4) * T * R * R
         - 1.99 * (10**-6) * T * T * R * R
     )
-    print(df.columns)
+    # print(df.columns)
     # df['conditions'] = df['conditions']
     df["heat_index"] = hi
     df["occurence of heat wave"] = df["temp"].apply(
         lambda x: "yes" if x > 128 else "no"
     )
-    print(df.columns)
+    # print(df.columns)
     return df
 
 def aqi_prepare(df):
@@ -177,20 +180,28 @@ lottie_coding_1 = load_lottieurl(
 lottie_coding_2 = load_lottieurl(
     "https://assets9.lottiefiles.com/packages/lf20_dXP5CGL9ik.json")
 
+
+model = None   
 # ---- Title SECTION ----
-st.set_page_config(page_title="Team Tarang.ai",
-                   page_icon=":tada:", layout="wide")
+if model == 'heatwave':
+    st.set_page_config(page_title="Tarang.AI",page_icon="☀️", layout="wide")
+elif model == 'aqi':
+    st.set_page_config(page_title="Tarang.AI",page_icon="☁️", layout="wide")
+else:
+    st.set_page_config(page_title="Tarang.AI",page_icon="🌿", layout="wide")
 
 # ---- CSS----
 local_css("style/style.css")
 
 
-st.sidebar.header('Team Tarang.ai')
+st.sidebar.header('Tarang.AI')
 
 st.sidebar.subheader('What you want to Predict?')
 selected_model = st.sidebar.selectbox('Choose:', ('Heat wave', 'AQI'))
 selected_model = "".join(selected_model.split(" "))
 selected_model = selected_model.lower()
+model = selected_model
+
 st.sidebar.write('''''')
 cities = ('Delhi', 'Chennai', 'Lucknow','bangalore')
 selected_city = st.sidebar.selectbox('Select a city for prediction', cities)
@@ -203,7 +214,7 @@ print("SELECTION:PARAMS" , selected_city , selected_model)
 
 st.sidebar.markdown('''
 ---
-Created with ❤️ by [Team Tarang.ai](https://github.com/iamneo-production/00aa9422-7c04-4b7c-975b-6ed887ff7d95).
+Created with ❤️ by [Tarang.AI](https://github.com/iamneo-production/00aa9422-7c04-4b7c-975b-6ed887ff7d95).
 ''')
 
 def timeline_prepare(df, model):
@@ -243,16 +254,18 @@ def timeline_prepare(df, model):
 with st.container():
     left_column, right_column = st.columns(2)
     with left_column:
-        # i1 = "/images/logo-capstone.png"
-        # image1 = Image.open(i1)
-        # st.image("/images/logo-capstone.png")  
+        i1 = r"./images/vitb-logo.png"
+        image1 =Image.open(i1)
+        st.image(image1 , use_column_width='always' )  
         
         # i2 = "/images/vit-logo.png"
         # image2 = Image.open(i2)
         # st.image("/images/vit-logo.png") 
         
-        st.title("Capstone Project - Team Tarang.ai")
-        st.write("Stay ahead of the heat and breathe easy with Team Tarang.ai")
+        st.title("Capstone Project - Tarang.AI")
+        
+        st.write("Stay ahead of the heat and breathe easy with Tarang.AI")
+        
 
 
         if selected_model == "heatwave":
@@ -307,10 +320,10 @@ with st.container():
         # i = "./images/vit-logo.png"
         # image = Image.open(i)
         # st.image(image)        
-        st.markdown("<h4 style='text-align: right; color: white;'>In guidance of:</h4>", unsafe_allow_html=True)
-        st.markdown("<h5 style='text-align: right; color: white;'>Dr. Sandip Mal</h5>", unsafe_allow_html=True)
-        st.markdown("<h5 style='text-align: right; color: white;'>Dr. Preetam Suman</h5>", unsafe_allow_html=True)
-        st.markdown("<h5 style='text-align: right; color: white;'>Dr. Sasmita Padhy</h5>", unsafe_allow_html=True)
+        st.markdown("<h4 style='text-align: right; color: black;'>In guidance of:</h4>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: right; color: black;'>Dr. Sandip Mal</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: right; color: black;'>Dr. Preetam Suman</h5>", unsafe_allow_html=True)
+        st.markdown("<h5 style='text-align: right; color: black;'>Dr. Sasmita Padhy</h5>", unsafe_allow_html=True)
 
         if selected_model == 'heatwave':
                 st_lottie(lottie_coding_1, height=300, key="coding")
@@ -329,7 +342,7 @@ with st.container():
 #         st.header("Our Vision and Approach")
 #         st.write(
 #             """
-#             Welcome to Team Tarang.ai a home of Heatwave and AQI Prediction Platform! We are here to help you prepare for extreme weather conditions and make informed decisions to protect yourself and your loved ones.
+#             Welcome to Tarang.AI a home of Heatwave and AQI Prediction Platform! We are here to help you prepare for extreme weather conditions and make informed decisions to protect yourself and your loved ones.
 
 #             Our platform offers a seamless user journey, starting with the homepage where you can select the criteria you want to predict and the city you are interested in. Once you make your selection, our platform provides you with a graphical representation of the selected criteria for the chosen city, giving you a quick overview of the situation.
 
@@ -357,6 +370,7 @@ with st.container():
         # "./winner/aqi/delhi_aqi_csv.json"
         
     forecast = load_prediction(selected_model, selected_city)
+    
 
 
 path1 = "winner/{}/{}_temp_csv_forecast.csv".format(selected_model, selected_city)
@@ -389,7 +403,7 @@ if selected_model == 'heatwave':
         )
         st.plotly_chart(fig1)
 else:
-    info("Info", '''The Graph displays the prediction and actual AQI Reading for the range of the full dataset and for year 2023
+    info("Info", '''The Graph displays the prediction and actual AQI Reading for the range of the full dataset and for year 2024
     The orange points shows the predicted value and the grey points shows the actual value of AQI.''')
     fig1 = line_plot_plotly(m, forecast, 'markers', selected_model)
 
@@ -411,6 +425,7 @@ if selected_model == "heatwave":
     df['ds'] = pd.to_datetime(df['ds'] )
     df = df[df['ds'] >= pd.to_datetime('2024-01-01') ]
     df = df[df['ds'] < pd.to_datetime('2025-01-01') ]
+    # df['yhat_upper'].max()
     print("SHAPE",selected_city , df.shape)
     # df = timeline_prepare(df, selected_model)
 
@@ -422,9 +437,9 @@ if selected_model == "heatwave":
     elif selected_city == 'chennai':
         df = df[df["yhat_upper"] >= 39]
     elif selected_city == 'bangalore':
-        df = df[df["yhat_upper"] >= 39]
+        df = df[df["yhat_upper"] >= 36]
     elif selected_city == 'delhi':
-        df = df[df["yhat_upper"] >= 43]
+        df = df[df["yhat_upper"] >= 39]
         
     
     # Convert the dataframe to a list of dictionaries
@@ -444,11 +459,11 @@ if selected_model == "heatwave":
         
     print('item len',i , len(items) , items)
     
-    timeine_title = "Major Heat wave occurrences in the year 2023"
+    timeine_title = "Major Heat wave occurrences in the year 2024"
     st.header(timeine_title)
     info(
         "Info",
-        "The timeline highlights the major events in the year 2023 regarding the occurrence of Heat waves.",
+        "The timeline highlights the major events in the year 2024 regarding the occurrence of Heat waves.",
     )
 
     options = {"min": "2024-01-01", "max": "2024-12-31"}
@@ -480,13 +495,13 @@ else:
         i = i + 1
 
     timeine_title = (
-        "Major events in the year 2023 regarding severe Air Quality conditions."
+        "Major events in the year 2024 regarding severe Air Quality conditions."
     )
     st.header(timeine_title)
 
     info(
         "Info",
-        "The timeline highlights the major events in the year 2023 regarding severe Air Quality conditions",
+        "The timeline highlights the major events in the year 2024 regarding severe Air Quality conditions",
     )
 
     options = {"min": "2024-01-01", "max": "2024-12-31"}
@@ -526,7 +541,7 @@ else:
     max_date = datetime.date(year_string, month_string, date_string)
 
 d = st.date_input(
-    "Choose a date", datetime.date(2023, 1, 1), min_value=min_date, max_value=max_date
+    "Choose a date", datetime.date(2024, 1, 1), min_value=min_date, max_value=max_date
 )
 
 
@@ -740,6 +755,7 @@ with st.container():
                 "<p style='color: #00C957; font-size: 20px;'>Wind speed : </p>", unsafe_allow_html=True)
             st.write(
                 "<p style='color: #00C957; font-size: 20px;'>Condition : </p>", unsafe_allow_html=True)
+<<<<<<< Updated upstream
         with middle_column2:
             st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
                 df.loc[d, 'cloudcover']), unsafe_allow_html=True)
@@ -747,13 +763,22 @@ with st.container():
                 df.loc[d, 'windspeed']), unsafe_allow_html=True)
             st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
                 df.loc[d, 'description']), unsafe_allow_html=True)
+=======
+        # with middle_column2:
+        #     st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
+        #         df.loc[d, 'cloudcover']), unsafe_allow_html=True)
+        #     st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
+        #         df.loc[d, 'windspeed']), unsafe_allow_html=True)
+        #     st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
+        #         df.loc[d, 'conditions']), unsafe_allow_html=True)
+>>>>>>> Stashed changes
     else:
         path = "./versioning/weekone/{}/{}_aqi_csv.csv".format(selected_model, selected_city)
         # "./versioning/weekone/aqi/bangalore_aqi_csv.csv"
-        print("PATH" , path)
+        # print("PATH" , path)
         df = pd.read_csv(path)
         df = aqi_prepare(df)
-        print(df.columns)
+        # print(df.columns)
         left_column, middle_column1, right_column, middle_column2 = st.columns(4)
         
         with left_column:
