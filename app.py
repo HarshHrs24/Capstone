@@ -545,7 +545,6 @@ d = st.date_input(
 )
 
 
-
 with st.container():
     left_column, middle_column, right_column = st.columns(3)
     with left_column:
@@ -570,6 +569,11 @@ with st.container():
             df_del = pd.read_csv(path_del)
             df_luc = pd.read_csv(path_luc)
             df_chn = pd.read_csv(path_chn)
+            
+            df_ben = df_ben.drop_duplicates(subset=['datetime'])
+            df_del = df_del.drop_duplicates(subset=['datetime'])
+            df_luc = df_luc.drop_duplicates(subset=['datetime'])
+            df_chn = df_chn.drop_duplicates(subset=['datetime'])
             
             df_ben = heatwave_prepare(df_ben)
             df_del = heatwave_prepare(df_del)
@@ -608,6 +612,7 @@ with st.container():
             cities_gdf = gpd.GeoDataFrame(cities, geometry=geometry, crs="EPSG:4326")
 
             # Save the GeoDataFrame to a GeoJSON file
+            print('cities_gdf', cities_gdf)
             cities_gdf.to_file("heatwave_cities.geojson", driver="GeoJSON")
 
             # Load the city data
@@ -655,6 +660,12 @@ with st.container():
             df_del = pd.read_csv(path_del)
             df_luc = pd.read_csv(path_luc)
             df_chn = pd.read_csv(path_chn)
+            
+            df_ben = df_ben.drop_duplicates(subset=['dt'])
+            df_del = df_del.drop_duplicates(subset=['dt'])
+            df_luc = df_luc.drop_duplicates(subset=['dt'])
+            df_chn = df_chn.drop_duplicates(subset=['dt'])
+
             
             df_ben = aqi_prepare(df_ben)
             df_del = aqi_prepare(df_del)

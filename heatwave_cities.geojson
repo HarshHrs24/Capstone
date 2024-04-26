@@ -2,9 +2,9 @@
 "type": "FeatureCollection",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
-{ "type": "Feature", "properties": { "city": "bengaluru", "Heat Index": 91.581551491972931, "Temperature(°F)": 84.38, "latitude": 12.9767936, "longitude": 77.590082 }, "geometry": { "type": "Point", "coordinates": [ 77.590082, 12.9767936 ] } },
-{ "type": "Feature", "properties": { "city": "delhi", "Heat Index": 71.617823542678252, "Temperature(°F)": 60.62, "latitude": 28.6517178, "longitude": 77.2219388 }, "geometry": { "type": "Point", "coordinates": [ 77.2219388, 28.6517178 ] } },
-{ "type": "Feature", "properties": { "city": "lucknow", "Heat Index": 68.408615431444034, "Temperature(°F)": 64.4, "latitude": 26.8381, "longitude": 80.9346001 }, "geometry": { "type": "Point", "coordinates": [ 80.9346001, 26.8381 ] } },
-{ "type": "Feature", "properties": { "city": "chennai", "Heat Index": 93.209330881122781, "Temperature(°F)": 84.38, "latitude": 13.0836939, "longitude": 80.270186 }, "geometry": { "type": "Point", "coordinates": [ 80.270186, 13.0836939 ] } }
+{ "type": "Feature", "properties": { "city": "bengaluru", "Heat Index": 110.23633972492782, "Temperature(°F)": 92.48, "latitude": 12.9767936, "longitude": 77.590082 }, "geometry": { "type": "Point", "coordinates": [ 77.590082, 12.9767936 ] } },
+{ "type": "Feature", "properties": { "city": "delhi", "Heat Index": 100.96287082615112, "Temperature(°F)": 97.34, "latitude": 28.6517178, "longitude": 77.2219388 }, "geometry": { "type": "Point", "coordinates": [ 77.2219388, 28.6517178 ] } },
+{ "type": "Feature", "properties": { "city": "lucknow", "Heat Index": 107.64588574319995, "Temperature(°F)": 104.0, "latitude": 26.8381, "longitude": 80.9346001 }, "geometry": { "type": "Point", "coordinates": [ 80.9346001, 26.8381 ] } },
+{ "type": "Feature", "properties": { "city": "chennai", "Heat Index": 142.0694749350958, "Temperature(°F)": 98.6, "latitude": 13.0836939, "longitude": 80.270186 }, "geometry": { "type": "Point", "coordinates": [ 80.270186, 13.0836939 ] } }
 ]
 }
