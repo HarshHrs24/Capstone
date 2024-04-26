@@ -755,7 +755,6 @@ with st.container():
                 "<p style='color: #00C957; font-size: 20px;'>Wind speed : </p>", unsafe_allow_html=True)
             st.write(
                 "<p style='color: #00C957; font-size: 20px;'>Condition : </p>", unsafe_allow_html=True)
-<<<<<<< Updated upstream
         with middle_column2:
             st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
                 df.loc[d, 'cloudcover']), unsafe_allow_html=True)
@@ -763,15 +762,6 @@ with st.container():
                 df.loc[d, 'windspeed']), unsafe_allow_html=True)
             st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
                 df.loc[d, 'description']), unsafe_allow_html=True)
-=======
-        # with middle_column2:
-        #     st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
-        #         df.loc[d, 'cloudcover']), unsafe_allow_html=True)
-        #     st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
-        #         df.loc[d, 'windspeed']), unsafe_allow_html=True)
-        #     st.write("<p style='color: #333333; font-size: 20px;'>{}</p>".format(
-        #         df.loc[d, 'conditions']), unsafe_allow_html=True)
->>>>>>> Stashed changes
     else:
         path = "./versioning/weekone/{}/{}_aqi_csv.csv".format(selected_model, selected_city)
         # "./versioning/weekone/aqi/bangalore_aqi_csv.csv"
