@@ -125,6 +125,7 @@ def weekly_update(city,model):
           df_new = pd.read_csv(data_path)
           df_new['datetime'] =  pd.to_datetime(df_new['datetime'])
           k=pd.concat([df_new, w])
+          k.drop_duplicates(subset=['datetime'])
     return k
 
 
